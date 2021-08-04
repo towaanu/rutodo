@@ -1,0 +1,14 @@
+CREATE TABLE todos (
+    id SERIAL NOT NULL PRIMARY KEY,
+    label VARCHAR(255) UNIQUE NOT NULL CHECK(label <> ''),
+    is_done BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+
+    todo_list_id UUID REFERENCES todo_lists(id) ON DELETE CASCADE
+);
+
+CREATE TRIGGER add_updated_at
+BEFORE UPDATE ON todos
+FOR EACH ROW
+EXECUTE PROCEDURE update_timestamp();

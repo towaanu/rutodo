@@ -4,6 +4,9 @@ FROM rust:alpine
 RUN rustup component add rustfmt
 
 RUN apk update && apk add \
-    build-base
+    build-base \
+    openssl-dev
+
+RUN cargo install movine
 
 CMD ["cargo", "run"]

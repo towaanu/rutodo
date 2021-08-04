@@ -1,0 +1,7 @@
+[postgres]
+host = "pgdb"
+database = "rutodo_dev"
+user = "rutodo"
+password = "secret"
+port = 5432
+
