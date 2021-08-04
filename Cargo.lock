@@ -107,6 +107,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "envy"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f47e0157f2cb54f5ae1bd371b30a2ae4311e1c028f575cd4e81de7353215965"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "fnv"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -728,7 +737,9 @@ name = "rutodo"
 version = "0.1.0"
 dependencies = [
  "env_logger",
+ "envy",
  "log",
+ "serde",
  "tokio",
  "warp",
 ]
@@ -762,6 +773,20 @@ name = "serde"
 version = "1.0.127"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f03b9878abf6d14e6779d3f24f07b2cfa90352cfec4acc5aab8f1ac7f146fae8"
+dependencies = [
+ "serde_derive",
+]
+
+[[package]]
+name = "serde_derive"
+version = "1.0.127"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a024926d3432516606328597e0f224a51355a493b49fdd67e9209187cbe55ecc"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "serde_json"
