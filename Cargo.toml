@@ -13,4 +13,6 @@ log = "0.4.0"
 env_logger = "0.9"
 serde = { version = "1.0", features = ["derive"] }
 envy = "0.4"
+juniper = { git = "https://github.com/graphql-rust/juniper" }
+juniper_warp = { git = "https://github.com/graphql-rust/juniper" }
 
