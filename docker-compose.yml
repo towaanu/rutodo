@@ -1,0 +1,28 @@
+services:
+    api:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        ports:
+            - "3030:3030"
+        volumes:
+            - .:/rutodo
+        depends_on:
+            - pgdb
+        environment:
+            - RUTODO_LOG=debug
+            - RUTODO_PORT=3030
+            - RUTODO_PG_HOST=pgdb
+            - RUTODO_PG_USER=rutodo
+            - RUTODO_PG_PASSWORD=secret
+            - RUTODO_PG_DBNAME=rutodo_dev
+            - RUTODO_PG_PORT=5432
+
+    pgdb:
+        image: postgres:alpine
+        volumes:
+            - ./data/pg/data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=rutodo
+            - POSTGRES_PASSWORD=secret
+            - POSTGRES_DB=rutodo_dev

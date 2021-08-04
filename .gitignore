@@ -1,5 +1,7 @@
 /target
 
+/data
+
 # MacOS
 # General
 .DS_Store
