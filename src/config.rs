@@ -8,9 +8,7 @@ pub struct AppConfig {
 
 impl Default for AppConfig {
     fn default() -> Self {
-        Self {
-            port: 3030,
-        }
+        Self { port: 3030 }
     }
 }
 
@@ -22,9 +20,7 @@ struct FlatConfig {
 
 impl Default for FlatConfig {
     fn default() -> Self {
-        Self {
-            port: 3030,
-        }
+        Self { port: 3030 }
     }
 }
 

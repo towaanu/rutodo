@@ -2,16 +2,21 @@ use warp::Filter;
 
 mod app_logger;
 mod config;
+mod db;
+mod errors;
 mod graphql;
+mod todos;
 
 #[tokio::main]
 async fn main() {
     app_logger::init_logger();
     let app_config = config::get_config();
+    let pg_pool = db::get_pg_pool().unwrap();
     let index = warp::path::end().map(|| "Hello world !");
 
-    let graphql_state = warp::any()
-        .map( || graphql::context::Context{});
+    let graphql_state = warp::any().map(move || graphql::context::Context {
+        pg_pool: pg_pool.clone(),
+    });
 
     let graphql_filter =
         juniper_warp::make_graphql_filter(graphql::schema::new_schema(), graphql_state.boxed());
