@@ -6,6 +6,7 @@ mod db;
 mod errors;
 mod graphql;
 mod todos;
+mod rest;
 
 #[tokio::main]
 async fn main() {
@@ -27,7 +28,10 @@ async fn main() {
 
     let graphql_api = warp::path("graphql").and(graphql_filter);
 
+    let rest_api = warp::path("rest").and(rest::routes());
+
     let api = index
+        .or(rest_api)
         .or(graphql_api)
         .or(graphiql_api)
         .with(warp::log("rutodo::api"));
