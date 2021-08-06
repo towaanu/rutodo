@@ -4,9 +4,10 @@ mod app_logger;
 mod config;
 mod db;
 mod errors;
+mod filters;
 mod graphql;
-mod todos;
 mod rest;
+mod todos;
 
 #[tokio::main]
 async fn main() {
@@ -15,8 +16,9 @@ async fn main() {
     let pg_pool = db::get_pg_pool().unwrap();
     let index = warp::path::end().map(|| "Hello world !");
 
+    let graphql_pg_pool = pg_pool.clone();
     let graphql_state = warp::any().map(move || graphql::context::Context {
-        pg_pool: pg_pool.clone(),
+        pg_pool: graphql_pg_pool.clone(),
     });
 
     let graphql_filter =
@@ -28,7 +30,7 @@ async fn main() {
 
     let graphql_api = warp::path("graphql").and(graphql_filter);
 
-    let rest_api = warp::path("rest").and(rest::routes());
+    let rest_api = warp::path("rest").and(rest::routes(pg_pool.clone()));
 
     let api = index
         .or(rest_api)

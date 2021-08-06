@@ -1,8 +1,9 @@
 use warp::Filter;
 
-pub fn routes() -> impl Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
-    warp::path("version")
-        .and(index())
+pub fn routes(
+    prefix: &'static str,
+) -> impl Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
+    warp::path(prefix).and(index())
 }
 
 pub fn index() -> impl Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
