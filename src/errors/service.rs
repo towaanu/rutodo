@@ -8,6 +8,8 @@ pub enum ServiceError {
     PgDb(tokio_postgres::error::Error),
 }
 
+impl warp::reject::Reject for ServiceError {}
+
 impl fmt::Display for ServiceError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {

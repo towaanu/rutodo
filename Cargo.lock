@@ -1149,6 +1149,7 @@ dependencies = [
  "deadpool-postgres",
  "env_logger",
  "envy",
+ "http",
  "juniper",
  "juniper_warp",
  "log",

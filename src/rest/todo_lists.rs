@@ -59,7 +59,7 @@ mod handlers {
     use warp::http::StatusCode;
 
     pub async fn list_todo_lists(pg_client: Client) -> Result<impl warp::Reply, warp::Rejection> {
-        let todo_lists = todos::find_todo_lists(&pg_client).await.unwrap();
+        let todo_lists = todos::find_todo_lists(&pg_client).await?;
 
         Ok(warp::reply::json(&todo_lists))
     }
@@ -68,7 +68,7 @@ mod handlers {
         id: Uuid,
         pg_client: Client,
     ) -> Result<impl warp::Reply, warp::Rejection> {
-        let todo_list = todos::find_todo_list_by_id(&pg_client, &id).await.unwrap();
+        let todo_list = todos::find_todo_list_by_id(&pg_client, &id).await?;
         Ok(warp::reply::json(&todo_list))
     }
 
@@ -76,9 +76,7 @@ mod handlers {
         new_todo_list: NewTodoList,
         pg_client: Client,
     ) -> Result<impl warp::Reply, warp::Rejection> {
-        let created_todo_list = todos::create_todo_list(&pg_client, &new_todo_list)
-            .await
-            .unwrap();
+        let created_todo_list = todos::create_todo_list(&pg_client, &new_todo_list).await?;
         Ok(warp::reply::json(&created_todo_list))
     }
 
@@ -86,7 +84,7 @@ mod handlers {
         id: Uuid,
         pg_client: Client,
     ) -> Result<impl warp::Reply, warp::Rejection> {
-        let nb_row = todos::delete_todo_list(&pg_client, &id).await.unwrap();
+        let nb_row = todos::delete_todo_list(&pg_client, &id).await?;
         if nb_row == 1 {
             Ok(StatusCode::NO_CONTENT)
         } else {
