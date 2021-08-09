@@ -1,18 +1,22 @@
 use crate::graphql::context::Context;
 use crate::graphql::errors::AppGraphQLResult;
 use crate::todos::models::{Todo, TodoList};
-use crate::todos::todos::find_todos_for_todo_list;
+use crate::todos::todos::find_todo_list_by_id;
 use chrono::{DateTime, Utc};
 use juniper::{graphql_object, ID};
 
 #[graphql_object(context = Context)]
-impl TodoList {
+impl Todo {
     fn id(&self) -> ID {
         self.id.to_string().into()
     }
 
     fn label(&self) -> &str {
         &self.label
+    }
+
+    fn is_done(&self) -> bool {
+        self.is_done
     }
 
     fn created_at(&self) -> DateTime<Utc> {
@@ -23,10 +27,11 @@ impl TodoList {
         self.updated_at
     }
 
-    async fn todos(&self, ctx: &Context) -> AppGraphQLResult<Vec<Todo>> {
+    async fn todo_list(&self, ctx: &Context) -> AppGraphQLResult<TodoList> {
         let pg_client = ctx.get_pg_client().await;
-        find_todos_for_todo_list(&pg_client, &self.id)
+        find_todo_list_by_id(&pg_client, &self.todo_list_id)
             .await
+            .map(|opt| opt.unwrap())
             .map_err(|err| err.into())
     }
 }
