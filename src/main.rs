@@ -13,7 +13,7 @@ mod todos;
 async fn main() {
     app_logger::init_logger();
     let app_config = config::get_config();
-    let pg_pool = db::get_pg_pool().unwrap();
+    let pg_pool = db::get_pg_pool(&app_config).unwrap();
     let index = warp::path::end().map(|| "Hello world !");
 
     let graphql_pg_pool = pg_pool.clone();
