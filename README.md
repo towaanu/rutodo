@@ -22,5 +22,18 @@ The api should be accessible at [http://localhost:3030](http://localhost:3030)
 
 ## Endpoints 
 ### Graphql
-- `/graphql` : endpoint for graphql requests
-- `/graphiql` : Graphql playground
+- `POST /graphql` : Endpoint for graphql requests
+- `GET /graphiql` : Graphql playground
+
+### Rest
+#### Todolists
+- `GET /todo-lists` : List all todo lists
+- `GET /todo-lists/:id` : Get details about a todo list with the provided id
+- `POST /todo-lists` : Create a new todo list ( label must be provided as json : `{"label": "a label"}` )
+- `DELETE /todo-lists/:id` : Delete todo lists with provided id
+
+#### Todos
+- `GET /todos/:id` : Get details about a todo with the provided id
+- `POST /todos` : Create a new todo ( label must be provided as json : `{"label": "todo label", "todoListId": ...}` )
+- `DELETE /todos/:id` : Delete todo with provided id
+- `GET /todos/:id/toggle` : Toggle the todo id with the provided id
