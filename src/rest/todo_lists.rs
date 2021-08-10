@@ -53,6 +53,7 @@ pub fn delete_todo_list(
 }
 
 mod handlers {
+    use crate::rest;
     use crate::todos::{models::NewTodoList, todos};
     use deadpool_postgres::Client;
     use uuid::Uuid;
@@ -68,8 +69,18 @@ mod handlers {
         id: Uuid,
         pg_client: Client,
     ) -> Result<impl warp::Reply, warp::Rejection> {
-        let todo_list = todos::find_todo_list_by_id(&pg_client, &id).await?;
-        Ok(warp::reply::json(&todo_list))
+        let opt_todo_list = todos::find_todo_list_by_id(&pg_client, &id).await?;
+        match opt_todo_list {
+            Some(todo_list) => {
+                let todos = todos::find_todos_for_todo_list(&pg_client, &todo_list.id).await?;
+                let populated_todo_list = Some(rest::models::TodoList::new(todo_list, todos));
+                Ok(warp::reply::json(&populated_todo_list))
+            }
+            None => {
+                let none_res: Option<rest::models::TodoList> = None;
+                Ok(warp::reply::json(&none_res))
+            }
+        }
     }
 
     pub async fn create_todo_list(

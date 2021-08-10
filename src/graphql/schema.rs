@@ -1,5 +1,5 @@
 use crate::graphql::{context::Context, errors::AppGraphQLResult};
-use crate::todos::{models::NewTodoList, models::TodoList, todos};
+use crate::todos::{models::NewTodo, models::NewTodoList, models::Todo, models::TodoList, todos};
 use juniper::{graphql_object, EmptySubscription, ID};
 use std::convert::TryFrom;
 
@@ -27,6 +27,14 @@ impl Query {
             .await
             .map_err(|err| err.into())
     }
+
+    #[graphql(description = "Find a todo by id")]
+    async fn todo(ctx: &Context, id: ID) -> AppGraphQLResult<Option<Todo>> {
+        let pg_client = ctx.get_pg_client().await;
+        todos::find_todo_by_id(&pg_client, id.parse().unwrap())
+            .await
+            .map_err(|err| err.into())
+    }
 }
 
 pub struct Mutation;
@@ -48,6 +56,31 @@ impl Mutation {
     async fn delete_todo_list(ctx: &Context, id: ID) -> AppGraphQLResult<i32> {
         let pg_client = ctx.get_pg_client().await;
         todos::delete_todo_list(&pg_client, &id.parse().unwrap())
+            .await
+            .map(|res| i32::try_from(res).unwrap())
+            .map_err(|err| err.into())
+    }
+
+    #[graphql(description = "Create a new todo")]
+    async fn create_todo(ctx: &Context, new_todo: NewTodo) -> AppGraphQLResult<Todo> {
+        let pg_client = ctx.get_pg_client().await;
+        todos::create_todo(&pg_client, &new_todo)
+            .await
+            .map_err(|err| err.into())
+    }
+
+    #[graphql(description = "Toggle a todo by id")]
+    async fn toggle_todo(ctx: &Context, id: ID) -> AppGraphQLResult<Todo> {
+        let pg_client = ctx.get_pg_client().await;
+        todos::toggle_todo(&pg_client, id.parse().unwrap())
+            .await
+            .map_err(|err| err.into())
+    }
+
+    #[graphql(description = "Delete a todo by id")]
+    async fn delete_todo(ctx: &Context, id: ID) -> AppGraphQLResult<i32> {
+        let pg_client = ctx.get_pg_client().await;
+        todos::delete_todo(&pg_client, id.parse().unwrap())
             .await
             .map(|res| i32::try_from(res).unwrap())
             .map_err(|err| err.into())
