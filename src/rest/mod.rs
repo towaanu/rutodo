@@ -1,6 +1,7 @@
 pub mod rejection;
 pub mod todo_lists;
 pub mod version;
+pub mod models;
 
 use deadpool_postgres::Pool;
 
