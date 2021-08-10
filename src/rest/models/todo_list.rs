@@ -7,7 +7,9 @@ use uuid::Uuid;
 pub struct TodoList {
     pub id: Uuid,
     pub label: String,
+    #[serde(rename = "createdAt")]
     pub created_at: DateTime<Utc>,
+    #[serde(rename = "updatedAt")]
     pub updated_at: DateTime<Utc>,
 
     pub todos: Vec<Todo>,

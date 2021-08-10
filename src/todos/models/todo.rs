@@ -8,10 +8,14 @@ use uuid::Uuid;
 pub struct Todo {
     pub id: i32,
     pub label: String,
+    #[serde(rename = "isDone")]
     pub is_done: bool,
+    #[serde(rename = "createdAt")]
     pub created_at: DateTime<Utc>,
+    #[serde(rename = "updatedAt")]
     pub updated_at: DateTime<Utc>,
 
+    #[serde(rename = "todoListId")]
     pub todo_list_id: Uuid,
 }
 
@@ -19,6 +23,7 @@ pub struct Todo {
 #[graphql(name = "TodoInput")]
 pub struct NewTodo {
     pub label: String,
+    #[serde(rename = "todoListId")]
     pub todo_list_id: Uuid,
 }
 
