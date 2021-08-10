@@ -1,7 +1,7 @@
+use crate::todos::models::{Todo, TodoList as LazyTodoList};
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use chrono::{DateTime, Utc};
-use crate::todos::models::{ Todo, TodoList as LazyTodoList };
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TodoList {
@@ -10,11 +10,10 @@ pub struct TodoList {
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
 
-    pub todos: Vec<Todo>
+    pub todos: Vec<Todo>,
 }
 
 impl TodoList {
-
     pub fn new(todo_list: LazyTodoList, todos: Vec<Todo>) -> Self {
         Self {
             id: todo_list.id,
@@ -23,6 +22,5 @@ impl TodoList {
             updated_at: todo_list.updated_at,
             todos,
         }
-
     }
 }
