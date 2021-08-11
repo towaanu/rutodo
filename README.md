@@ -13,17 +13,17 @@ Then the api should be accessible at [http://localhost:3030](http://localhost:30
 
 ### Without docker
 To run the project you need to have a postgres database and rust installed.\
-You can then configure the environment variable in the `docker-compose.yml` file to use your postgres database. \ 
+You can then configure the environment variable in the `docker-compose.yml` file to use your postgres database.\ 
 Then you can start the project using : 
 ```sh 
 cargo run 
 ```
 The api should be accessible at [http://localhost:3030](http://localhost:3030)
 
-## Endpoints 
+## Endpoints
 ### Graphql
 - `POST /graphql` : Endpoint for graphql requests
-- `GET /graphiql` : Graphql playground
+- `GET /graphiql` : Graphql playground ( You can also find graphql docs )
 
 ### Rest
 #### Todolists
@@ -34,6 +34,6 @@ The api should be accessible at [http://localhost:3030](http://localhost:3030)
 
 #### Todos
 - `GET /todos/:id` : Get details about a todo with the provided id
-- `POST /todos` : Create a new todo ( label must be provided as json : `{"label": "todo label", "todoListId": ...}` )
+- `POST /todos` : Create a new todo ( label must be provided as json : `{"label": "todo label", "todoListId": "..."}` )
 - `DELETE /todos/:id` : Delete todo with provided id
 - `GET /todos/:id/toggle` : Toggle the todo id with the provided id
