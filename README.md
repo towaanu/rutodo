@@ -13,7 +13,8 @@ Then the api should be accessible at [http://localhost:3030](http://localhost:30
 
 ### Without docker
 To run the project you need to have a postgres database and rust installed.\
-You can then configure the environment variable in the `docker-compose.yml` file to use your postgres database.\ 
+You can then configure the environment variable in the `docker-compose.yml` file to use your postgres database.
+
 Then you can start the project using : 
 ```sh 
 cargo run 
